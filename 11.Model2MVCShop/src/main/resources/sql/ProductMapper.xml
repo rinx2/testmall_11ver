@@ -38,7 +38,6 @@
 	   	<set>
 	   		prod_name 	= #{prodName},
 			prod_detail	= #{prodDetail},
-			price		= #{price},
 			image_file	= #{fileName}
 	   	</set>
 	   	WHERE prod_no = #{prodNo}

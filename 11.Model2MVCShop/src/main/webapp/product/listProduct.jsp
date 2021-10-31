@@ -84,7 +84,7 @@
 						},
 						success : function(JSONData, status){
 							
-							var displayValue = "<h3>"
+							var displayValue = "<h6>"
 														+"상품번호 : "+JSONData.prodNo+"<br/>"
 														+"상품명 : "+JSONData.prodName+"<br/>"
 														+"상품이미지 : <img src='/images/uploadFiles/"+JSONData.fileName+"'><br/>"
@@ -92,7 +92,7 @@
 														+"제조일자 : "+JSONData.manuDate+"<br/>"
 														+"가격 : "+JSONData.price+"<br/>"
 														+"</h3>";
-							$("h3").remove();
+							$("h6").remove();
 							$("#"+prodNo+"").html(displayValue);
 						}
 					});
