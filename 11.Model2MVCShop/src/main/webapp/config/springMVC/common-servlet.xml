@@ -51,7 +51,9 @@
 	<!--  :: ViewResolver 선언 -->	
     <bean id="viewResolver"
 				class="org.springframework.web.servlet.view.InternalResourceViewResolver" />
-	
+
+	<!-- 파일업로드를 위한 multiPartResolver 선언 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
 	
 	<!--	
 		■ / 형식의 Mapping 은 모든(정적,동적 자원) 요청시 처리책임

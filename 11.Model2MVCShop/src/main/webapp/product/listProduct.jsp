@@ -22,7 +22,6 @@
     <!-- Bootstrap Dropdown Hover JS -->
    <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
    
-   
    <!-- jQuery UI toolTip 사용 CSS-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!-- jQuery UI toolTip 사용 JS-->
@@ -50,14 +49,14 @@
 		
 	})
  */	
- /* 
+  
 	$(function() {
 		
-		$( "td.ct_btn01:contains('검색')").on("click" , function() {
+		$( ".btn.btn-default").on("click" , function() {
 			fncGetUserList(1);
 		});
 	});
- */	
+ 
 	$(function(){
 		
 		$( "td:nth-child(2)" ).on("click" , function() {

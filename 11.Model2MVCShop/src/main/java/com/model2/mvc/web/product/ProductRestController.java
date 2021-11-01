@@ -41,7 +41,7 @@ public class ProductRestController {
 	@Value("#{commonProperties['pageSize']}")
 	int pageSize;
 	
-	//@RequestMapping(value="addProduct", method=RequestMethod.GET)
+	@RequestMapping(value="json/addProduct", method=RequestMethod.GET)
 	public String addProduct() {
 		
 		System.out.println("/product/addProduct : GET");
@@ -49,15 +49,16 @@ public class ProductRestController {
 		return "redirect:/product/addProductView.jsp";
 	}
 	
-	//@RequestMapping(value="json/addProduct", method=RequestMethod.POST)
-	public String addProduct(@RequestBody Product product) throws Exception {
+	@RequestMapping(value="json/addProduct", method=RequestMethod.POST)
+	public Product addProduct(@RequestBody Product product) throws Exception {
 		
 		System.out.println("/product/json/addProduct : POST");
 		
 		System.out.println("@RequestBody :: "+product);
 		productService.addProduct(product);
+		Product latestProduct = productService.getProduct(productService.getLatestProdNo());
 		
-		return "redirect:/getProduct?prodNo="+product.getProdNo();
+		return latestProduct;
 	}
 	
 	@RequestMapping(value="json/getProduct/{prodNo}", method=RequestMethod.GET)
@@ -71,7 +72,7 @@ public class ProductRestController {
 		return product;
 	}
 	
-	//@RequestMapping(value="updateProduct/{prodNo}", method=RequestMethod.GET)
+	//@RequestMapping(value="json/updateProduct/{prodNo}", method=RequestMethod.GET)
 	public String updateProduct(@PathVariable int prodNo, Model model) throws Exception {
 		//위의 getProduct와 기능 같음 그러나 접근 경로는 getProduct 뒤에 해당 기능 접근 가능
 		
@@ -83,7 +84,7 @@ public class ProductRestController {
 		return "forward:/product/updateProduct.jsp";
 	}
 	
-	//@RequestMapping(value="updateProduct", method=RequestMethod.POST)
+	//@RequestMapping(value="json/updateProduct", method=RequestMethod.POST)
 	public String updateProduct(@ModelAttribute("product") Product product, Model model) throws Exception {
 		
 		System.out.println("/product/updateProduct : POST");

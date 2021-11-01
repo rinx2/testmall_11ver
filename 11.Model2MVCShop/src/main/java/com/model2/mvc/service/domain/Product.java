@@ -53,6 +53,9 @@ public class Product {
 	}
 	public void setManuDate(String manuDate) {
 		this.manuDate = manuDate;
+		if(manuDate != null && manuDate.contains("-")) {
+			this.manuDate = (manuDate.split("-")[0]+manuDate.split("-")[1]+manuDate.split("-")[2]);
+		}
 	}
 	public int getPrice() {
 		return price;

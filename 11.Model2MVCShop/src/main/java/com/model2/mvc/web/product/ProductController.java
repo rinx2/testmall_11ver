@@ -1,5 +1,6 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
@@ -27,6 +29,8 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+	
+	private static final String FILE_SERVER_PATH = "D:\\bitcamp\\git\\testmall_11ver\\11.Model2MVCShop\\src\\main\\webapp\\images\\uploadFiles";
 	
 	public ProductController() {
 		System.out.println(this.getClass());
@@ -50,13 +54,19 @@ public class ProductController {
 	
 	//@RequestMapping("/addProduct.do")
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
-	public String addProduct(@ModelAttribute("product") Product product) throws Exception {
+	public String addProduct(@ModelAttribute("product") Product product, @RequestParam(value="file", required=false) MultipartFile file) throws Exception {
 		
+		if(!file.getOriginalFilename().isEmpty()) {
+			file.transferTo(new File(FILE_SERVER_PATH, file.getOriginalFilename()));
+			product.setFileName(file.getOriginalFilename());
+		}
+
 		System.out.println("/product/addProduct : POST");
 		productService.addProduct(product);
+		Product latestProduct = productService.getProduct(productService.getLatestProdNo());
 		
 		//return "redirect:/getProduct.do?prodNo="+product.getProdNo();
-		return "redirect:/product/getProduct?prodNo="+product.getProdNo();
+		return "redirect:/product/getProduct?prodNo="+latestProduct.getProdNo();
 	}
 	
 	//@RequestMapping("/getProduct.do")

@@ -48,6 +48,14 @@
 		    </init-param>
 		    
 		    <load-on-startup>1</load-on-startup>
+		    
+		    <!-- fileupload 기능 -->
+		    <multipart-config>
+		    	<max-file-size>104857600</max-file-size><!-- 10MB로 제한 -->
+		    	<max-request-sieze>104857600</max-request-sieze>
+		    	<file-size-threshold>0</file-size-threshold>
+		    </multipart-config>
+		    
   </servlet>
   
 	<!-- 	URI : / 형식  Servlet Mapping -->
