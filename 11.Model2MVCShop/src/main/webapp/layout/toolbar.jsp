@@ -10,7 +10,7 @@
 	
 	<div class="container">
 	       
-		<a class="navbar-brand" href="/index.jsp">IloveHome ver.10</a>
+		<a class="navbar-brand" href="/index.jsp">IloveHome ver.11</a>
 		
 		<!-- toolBar Button Start //////////////////////// -->
 		<div class="navbar-header">

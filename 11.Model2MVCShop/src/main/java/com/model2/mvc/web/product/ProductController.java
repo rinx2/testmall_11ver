@@ -55,13 +55,14 @@ public class ProductController {
 	//@RequestMapping("/addProduct.do")
 	@RequestMapping( value="addProduct", method=RequestMethod.POST )
 	public String addProduct(@ModelAttribute("product") Product product, @RequestParam(value="file", required=false) MultipartFile file) throws Exception {
+
+		System.out.println("/product/addProduct : POST");
 		
 		if(!file.getOriginalFilename().isEmpty()) {
 			file.transferTo(new File(FILE_SERVER_PATH, file.getOriginalFilename()));
 			product.setFileName(file.getOriginalFilename());
 		}
 
-		System.out.println("/product/addProduct : POST");
 		productService.addProduct(product);
 		Product latestProduct = productService.getProduct(productService.getLatestProdNo());
 		
@@ -95,9 +96,14 @@ public class ProductController {
 	
 	//@RequestMapping("/updateProduct.do")
 	@RequestMapping( value="updateProduct", method=RequestMethod.POST )
-	public String updateProduct(@ModelAttribute("product") Product product, Model model) throws Exception {
+	public String updateProduct(@ModelAttribute("product") Product product, @RequestParam(value="file", required=false) MultipartFile file) throws Exception {
 		
 		System.out.println("/product/updateProduct : POST");
+		
+		if(!file.getOriginalFilename().isEmpty()) {
+			file.transferTo(new File(FILE_SERVER_PATH, file.getOriginalFilename()));
+			product.setFileName(file.getOriginalFilename());
+		}
 		
 		productService.updateProduct(product);
 		

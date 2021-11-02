@@ -45,10 +45,6 @@
 				alert("상품소개는 반드시 입력하여야 합니다.");
 				return;
 			}
-			if(fileName == null || detail.length<1){
-				alert("상품이미지는 반드시 둥록하여야 합니다.");
-				return;
-			}
 			
 			$("form").attr("method" , "POST").attr("action" , "/product/updateProduct").submit();
 		}
@@ -87,7 +83,7 @@
 	    </div>
 	    
 	    <!-- form Start /////////////////////////////////////-->
-		<form class="form-horizontal">
+		<form class="form-horizontal" enctype="multipart/form-data">
 		
 		  <div class="form-group">
 		    <label for="prodNo" class="col-sm-offset-1 col-sm-3 control-label">상품번호</label>
@@ -113,12 +109,12 @@
 		    </div>
 		  </div>
 		
-		  <div class="form-group">
-		    <label for="fileName" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
-		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="fileName" name="fileName"  value="${ product.fileName }" placeholder="상품이미지 등록">
+		 <div class="form-group">
+		    <label for="file" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
+		    <div class="col-sm-4" >
+		      <input type="file" class="form-control" id="file" name="file" placeholder="상품이미지">
 		    </div>
-		  </div>
+		</div>
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
