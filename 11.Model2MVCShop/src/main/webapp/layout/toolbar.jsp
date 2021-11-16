@@ -136,8 +136,14 @@
 		$(function() {
 		 	$( "a:contains('판매상품관리')" ).on("click" , function() {
 		 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-				$(self.location).attr("href","/product/listProduct");
-		 		//listSale로 연결해야함
+				$(self.location).attr("href","/purchase/listSale");
+			});
+		 });
+		//=============  구매이력조회 Event  처리 =============	
+		$(function() {
+		 	$( "a:contains('구매이력조회')" ).on("click" , function() {
+		 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+				$(self.location).attr("href","/purchase/listPurchase");
 			});
 		 });
 		//=============  상품검색 Event  처리 =============

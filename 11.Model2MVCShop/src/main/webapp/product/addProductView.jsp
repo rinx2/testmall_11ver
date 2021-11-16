@@ -125,9 +125,9 @@
 	
 	$(function() {
 		
-		$( "#calendar").on("click" , function() {
+/* 		$( "#calendar").on("click" , function() {
 			show_calendar($("input[name='manuDate']"), $("input[name='manuDate']").val());
-		});
+		}); */
 		
 		
 		$( "#manuDate" ).datepicker({

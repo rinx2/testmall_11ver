@@ -30,7 +30,7 @@ public class ProductController {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 	
-	private static final String FILE_SERVER_PATH = "D:\\bitcamp\\git\\testmall_11ver\\11.Model2MVCShop\\src\\main\\webapp\\images\\uploadFiles";
+	private static final String FILE_SERVER_PATH = "C:\\Users\\±Ë«œ∏∞\\git\\testmall_11ver\\11.Model2MVCShop\\src\\main\\webapp\\images\\uploadFiles";
 	
 	public ProductController() {
 		System.out.println(this.getClass());

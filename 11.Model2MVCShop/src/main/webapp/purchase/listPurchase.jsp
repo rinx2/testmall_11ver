@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>상품목록조회</title>
+<title>구매목록조회</title>
 
 	<!-- 참조 : http://getbootstrap.com/css/   참조 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -33,21 +33,47 @@
             padding-top : 50px;
         }
     </style>
-    
 
 <!-- ////////////////////////////////JavaScript///////////////////////////////////// -->
 <script type="text/javascript">
 	// 검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용  
-function fncGetUserList(currentPage) {
-	$("#currentPage").val(currentPage)
-	$("form").attr("method", "POST").attr("action", "/product/listProduct").submit();	
-}
+	function fncGetUserList(currentPage) {
+		$("#currentPage").val(currentPage)
+		$("form").attr("method", "POST").attr("action", "/purchase/listPurchase").submit();	
+	}
   
 	$(function() {
 		
 		$( ".btn.btn-default").on("click" , function() {
 			fncGetUserList(1);
 		});
+	});
+	
+	$(function() {
+			/* $( "td:nth-child(6) > i" ).on("click" , function() { */
+			$( "#updateTranCode" ).on("click" , function() {
+				//self.location ="/product/getProduct?prodNo="+$("#prodNo").text().trim();
+				var tranCode = $(this).siblings("#tranCode").val();
+				var tranNo = $(this).siblings("#tranNo").val();
+
+				$.ajax(
+						{
+							url : "/purchase/json/updateTranCode/"+tranCode+"/"+tranNo,
+							method : "GET",
+							dataType : "json",
+							headers : {
+								"Accept" : "application/json",
+								"Content-Type" : "application/json"
+							},
+							success : function(JSONData, status){								
+								if(JSONData.tranCode == '002'){
+									$('#updateTranCode').html('물건도착');
+								} else if(JSONData.tranCode == '003'){
+									$('#updateTranCode').html('배송완료');
+								}
+							}
+						});
+			});
 	});
  
 	$(function(){
@@ -59,43 +85,11 @@ function fncGetUserList(currentPage) {
 		});
 
 	});
-
-	 $(function() {
-		$( "td:nth-child(5) > i" ).on("click" , function() {
-			//self.location ="/product/getProduct?prodNo="+$("#prodNo").text().trim();
-			var prodNo = $(this).siblings("#prodNo").val();
-
-			$.ajax(
-					{
-						url : "/product/json/getProduct/"+prodNo,
-						method : "GET",
-						dataType : "json",
-						headers : {
-							"Accept" : "application/json",
-							"Content-Type" : "application/json"
-						},
-						success : function(JSONData, status){
-							
-							var displayValue = "<h6>"
-														+"상품번호 : "+JSONData.prodNo+"<br/>"
-														+"상품명 : "+JSONData.prodName+"<br/>"
-														+"상품이미지 : <img src='/images/uploadFiles/"+JSONData.fileName+"'><br/>"
-														+"상품상세정보 : "+JSONData.prodDetail+"<br/>"
-														+"제조일자 : "+JSONData.manuDate+"<br/>"
-														+"가격 : "+JSONData.price+"<br/>"
-														+"</h3>";
-							$("h6").remove();
-							$("#"+prodNo+"").html(displayValue);
-						}
-					});
-		});
-		});
-				
-		$(".ct_list_pop:nth-child(2n+1)" ).css("background-color" , "whitesmoke");
+	
+	$(".ct_list_pop:nth-child(2n+1)" ).css("background-color" , "whitesmoke");
 </script>
 </head>
 
-<body>
 	
 	<!-- ToolBar Start /////////////////////////////////////-->
 	<jsp:include page="/layout/toolbar.jsp" />
@@ -105,7 +99,7 @@ function fncGetUserList(currentPage) {
 	<div class="container">
 	
 		<div class="page-header text-info">
-	       <h3>상품목록</h3>
+	       <h3>구매내역</h3>
 	    </div>
 	    
 	    <!-- table 위쪽 검색 Start /////////////////////////////////////-->
@@ -122,9 +116,9 @@ function fncGetUserList(currentPage) {
 			    
 				  <div class="form-group">
 				    <select class="form-control" name="searchCondition" >
-						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>
-						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
-						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품가격</option>
+						<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>주문번호</option>
+						<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품번호</option>
+						<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>배송현황</option>
 					</select>
 				  </div>
 				  
@@ -151,26 +145,45 @@ function fncGetUserList(currentPage) {
         <thead>
           <tr>
             <th align="center">No</th>
-            <th align="left">상품명</th>
-            <th align="left">가격</th>
-            <th align="left">등록일</th>
-            <th align="left">간략정보</th>
+            <th align="left">회원ID</th>
+            <th align="left">주문번호</th>
+            <th align="left">상품번호</th>
+            <th align="left">배송현황</th>
+            <th align="left">정보수정</th>
           </tr>
         </thead>
-       
-		<tbody>
-		
-		  <c:set var="i" value="0" />
-		  <c:forEach var="product" items="${list}">
+        
+        <c:set var="i" value="0" />
+		  <c:forEach var="purchase" items="${list}">
 			<c:set var="i" value="${ i+1 }" />
 			<tr>
 			  <td align="center">${ i }</td>
-			  <td align="left"  title="Click : 상품정보 확인">${ product.prodName }</td>
-			  <td align="left">${ product.price }</td>
-			  <td align="left">${ product.regDate }</td>
-			  <td align="left">
-			  	<i class="glyphicon glyphicon-ok" id="${ product.prodNo }"></i>
-			  	<input type="hidden" id="prodNo" value="${ product.prodNo }">
+			  <td align="left">${ purchase.buyer.userId }</td>
+			  <td align="left">${ purchase.tranNo }</td>
+			  <td align="left">${ purchase.purchaseProd.prodNo }</td>
+			  <td align="left">현재		
+				<c:if test = "${purchase.tranCode=='000'}">
+					판매중
+				</c:if>
+				<c:if test = "${purchase.tranCode=='001'}">
+					구매 완료
+				</c:if>	
+				<c:if test = "${purchase.tranCode=='002'}">
+					배송중
+				</c:if>
+				<c:if test = "${purchase.tranCode=='003'}">
+					배송 완료
+				</c:if>
+				상태 입니다.</td>
+			  <td align="left" id="updateTranCode">
+				<c:if test = "${purchase.tranCode=='002'}">
+					물건도착
+				</c:if>
+ 				<c:if test = "${purchase.tranCode=='003'}">
+ 					배송완료
+ 				</c:if>
+			  	<input type="hidden" id="tranCode" value="${ purchase.tranCode }">
+			  	<input type="hidden" id="tranNo" value="${ purchase.tranNo }">
 			  </td>
 			</tr>
           </c:forEach>
@@ -179,7 +192,6 @@ function fncGetUserList(currentPage) {
       
       </table>
 	  <!--  table End /////////////////////////////////////-->
-	  
  	</div>
  	<!--  화면구성 div End /////////////////////////////////////-->
 

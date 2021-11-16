@@ -32,12 +32,9 @@
 	<script type="text/javascript">
 	
 	$(function(){
-		$("button.btn.btn-primary:contains('상품구매')").on("click", function(){
-			self.location = "/purchase/addPurchase?prodNo="+${product.prodNo};
-		});
 		
-		$("button:contains('상품정보수정')").on("click", function(){
-			self.location = "/product/updateProduct?prodNo="+${product.prodNo};
+		$("button:contains('구매정보수정')").on("click", function(){
+			self.location = "/purchase/updatePurchase?tranNo="+${purchase.tranNo};
 		});
 	})
 	
@@ -53,67 +50,83 @@
 	<!--  화면구성 div Start /////////////////////////////////////-->
 	<div class="container">
 	
-		<div class="page-header">
-	       <h3 class=" text-info">상품상세정보</h3>
+	<div class="page-header">
+	       <h3 class=" text-info">구매상세정보</h3>
 	    </div>
 	    
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2"><strong>상품번호</strong></div>
-			<div class="col-xs-8 col-md-4">${ product.prodNo }</div>
+	  		<div class="col-xs-4 col-md-2"><strong>주문번호</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.tranNo }</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>상품명</strong></div>
-			<div class="col-xs-8 col-md-4">${ product.prodName }</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>구매자ID</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.buyer.userId }</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>상품이미지</strong></div>
-			<div class="col-xs-8 col-md-4"> <img src='/images/uploadFiles/${ product.fileName }'></div>
+	  		<div class="col-xs-4 col-md-2 "><strong>구매방법</strong></div>
+			<div class="col-xs-8 col-md-4">
+				<c:if test= "${purchase.paymentOption == '1  '}">
+					현금구매
+				</c:if>
+				<c:if test= "${purchase.paymentOption == '2  '}">
+					카드구매
+				</c:if>
+			</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>상품소개</strong></div>
-			<div class="col-xs-8 col-md-4">${ product.prodDetail }</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>구매자이름</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.receiverName }</div>
 		</div>
 		
 		<hr/>
 
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>제조일자</strong></div>
-			<div class="col-xs-8 col-md-4">${ product.manuDate }</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>구매자연락처</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.receiverPhone }</div>
 		</div>
 		
 		<hr/>
 
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>가격</strong></div>
-			<div class="col-xs-8 col-md-4">${ product.price }</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>구매자주소</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.divyAddr }</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
-	  		<div class="col-xs-4 col-md-2 "><strong>등록일자</strong></div>
-			<div class="col-xs-8 col-md-4">${ product.regDate }</div>
+	  		<div class="col-xs-4 col-md-2 "><strong>구매요청사항</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.divyRequest }</div>
+		</div>
+		
+		<hr/>
+		
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>배송희망일</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.divyDate }</div>
+		</div>
+		
+		<hr/>
+				
+		<div class="row">
+	  		<div class="col-xs-4 col-md-2 "><strong>주문날짜</strong></div>
+			<div class="col-xs-8 col-md-4">${ purchase.orderDate }</div>
 		</div>
 		
 		<hr/>
 		
 		<div class="row">
 	  		<div class="col-md-12 text-center ">
-	  			<c:if test="${user.role == 'user'}">
-	  				<button type="button" class="btn btn-primary">상품구매</button>
-	  			</c:if>
-	  			<c:if test="${user.role == 'admin'}">
-					<button type="button" class="btn btn-primary">상품정보수정</button>
-				</c:if>
+				<button type="button" class="btn btn-primary">구매정보수정</button>
 	  		</div>
 		</div>
 		
